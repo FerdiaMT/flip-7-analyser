@@ -19,4 +19,4 @@ class Card:
         elif self.type == card_type.PLUS:
             return "+ " + str(self.value)
         else:
-            return self.card_type
+            return self.type.value

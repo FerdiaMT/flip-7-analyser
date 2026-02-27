@@ -57,10 +57,17 @@ class Dealer(Person):
     def setup_cards(self):
         #This function creates the dealer hand, which is not a set, but a list of every card
         for val in range(13): # create the 12 base cards
-
             self.dealer_hand[Card(card_type.NORMAL, val)] = val
+        for val in range(2,11,2):
+            self.dealer_hand[Card(card_type.PLUS, val)] = 1
+        self.dealer_hand[Card(card_type.FLIP_THREE)] = 3
+        self.dealer_hand[Card(card_type.FREEZE)] = 3
+        self.dealer_hand[Card(card_type.SECOND_CHANCE)] = 3
+        self.dealer_hand[Card(card_type.TIMES_TWO)] = 1
         
     def print_remaining(self):
         print("PRINTING ALL CARDS IN DEALER HAND")
         for card, amt in self.dealer_hand.items():
             print(f"TYPE : {card.to_string()} | REMANING: {amt}")
+        
+        # need to grab the normal one which has a type of 0, 
