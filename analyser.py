@@ -1,4 +1,5 @@
 from player import Dealer
+from card import Card
 ### CARD LIST ###
 # Name Quantity
 # 12 - 12
@@ -25,4 +26,6 @@ from player import Dealer
 
 dealer = Dealer(0)
 dealer.setup_cards()
-dealer.print_remaining()
+#dealer.print_remaining()
+next_card = dealer.get_random_card()
+print(next_card.to_string())

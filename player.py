@@ -1,5 +1,6 @@
 from card import Card
 from card import card_type
+from random import randint
 
 class Person:
     hand_num:set[int] = {}
@@ -54,6 +55,7 @@ class Person:
 
 class Dealer(Person):
     dealer_hand = {} # hash dict of hand
+
     def setup_cards(self):
         #This function creates the dealer hand, which is not a set, but a list of every card
         for val in range(13): # create the 12 base cards
@@ -64,10 +66,31 @@ class Dealer(Person):
         self.dealer_hand[Card(card_type.FREEZE)] = 3
         self.dealer_hand[Card(card_type.SECOND_CHANCE)] = 3
         self.dealer_hand[Card(card_type.TIMES_TWO)] = 1
+    
+        #The key who is of value 0 should have val 1 
+        for card in self.dealer_hand.keys():
+            if card.value == 0 and card.type == card_type.NORMAL:
+                self.dealer_hand[card]=1
+                break
         
     def print_remaining(self):
         print("PRINTING ALL CARDS IN DEALER HAND")
         for card, amt in self.dealer_hand.items():
             print(f"TYPE : {card.to_string()} | REMANING: {amt}")
+
+    def get_remaining_amt(self)->int:
+        y = 0
+        for x in self.dealer_hand.values():
+            y += x
+        return y
         
-        # need to grab the normal one which has a type of 0, 
+    def get_random_card(self)->Card:
+        cur = 0
+        target = randint(0,self.get_remaining_amt())
+        for key, val in self.dealer_hand.items():
+            cur += val
+            if cur >= target: # if we have hit our target basically
+                self.dealer_hand[key] -=1
+                if self.dealer_hand[key] == 0:
+                    self.dealer_hand.pop(key)
+                return key
