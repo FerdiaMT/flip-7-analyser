@@ -2,11 +2,12 @@ from enum import Enum
 
 class card_type(Enum):
     NORMAL = "Normal"
-    FREEZE = "Freeze"
-    FLIP_THREE = "Flip Three"
-    SECOND_CHANCE = "Second Chance"
+    FREEZE = "frz"
+    FLIP_THREE = "flp"
+    SECOND_CHANCE = "scd"
     PLUS = "Plus X"
-    TIMES_TWO = "Times Two"
+    TIMES_TWO = "*2"
+    ERROR="ERROR"
 
 
 class Card:
@@ -17,6 +18,12 @@ class Card:
         if self.type == card_type.NORMAL:
             return str(self.value)
         elif self.type == card_type.PLUS:
-            return "+ " + str(self.value)
+            return "+" + str(self.value)
         else:
             return self.type.value
+
+class CardInputError(Card):
+    def __init__(self, error:str):
+        self.error = error
+    def to_string(self)->str:
+        return self.error

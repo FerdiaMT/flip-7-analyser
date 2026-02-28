@@ -49,6 +49,9 @@ class Person:
             print( card )
             print( card.type)
             print( card.value )
+    
+    def get_id(self)-> int:
+        return self.id
 
 
 
@@ -74,15 +77,30 @@ class Dealer(Person):
                 break
         
     def print_remaining(self):
-        print("PRINTING ALL CARDS IN DEALER HAND")
+        print(f"/===========================\\")
+        print(f"|         DEALER HAND       |")
+        print(f"=============================")
         for card, amt in self.dealer_hand.items():
-            print(f"TYPE : {card.to_string()} | REMANING: {amt}")
+            card_str = card.to_string()
+            while len(card_str) !=3:
+                card_str +=" "
+            str_amt = str(amt)
+            while len(str_amt) != 2:
+                str_amt += " "
+            print(f"| TYPE : {card_str} | REMANING: {str_amt} |")
+        print(f"\===========================/")
 
     def get_remaining_amt(self)->int:
         y = 0
         for x in self.dealer_hand.values():
             y += x
         return y
+
+    def remove_card_from_deck(self, key:Card)->Card:
+        self.dealer_hand[key] -=1
+        if self.dealer_hand[key] == 0:
+            self.dealer_hand.pop(key)
+        return key
         
     def get_random_card(self)->Card:
         cur = 0
@@ -90,7 +108,4 @@ class Dealer(Person):
         for key, val in self.dealer_hand.items():
             cur += val
             if cur >= target: # if we have hit our target basically
-                self.dealer_hand[key] -=1
-                if self.dealer_hand[key] == 0:
-                    self.dealer_hand.pop(key)
-                return key
+                return self.remove_card_from_deck(key)
